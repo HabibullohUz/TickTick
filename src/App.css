@@ -12,13 +12,35 @@ body {
 
 .todo_input {
   /* background-color: #313131; */
-  border: 1px solid #5d86e5;
+  border: none;
   border-radius: 6px;
-  padding: 10px 8px;
-  margin-top: 20px;
+  padding: 10px 0;
   outline: none;
   color: #000;
   width: 400px;
+  border: none;
+}
+
+.todo_input:focus {
+  border: none;
+  outline: none;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #5d86e5;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.days {
+  background-color: #42ff1c41;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 0;
+  height: max-content;
 }
 
 .container {

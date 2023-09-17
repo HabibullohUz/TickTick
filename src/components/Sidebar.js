@@ -1,4 +1,4 @@
-import { CheckSquareOutlined, UserOutlined } from '@ant-design/icons';
+import { CalendarTwoTone, CheckSquareOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Space } from 'antd';
 import React from 'react';
 
@@ -12,6 +12,7 @@ const App = () => (
     </Space>
 
     <CheckSquareOutlined />
+    <CalendarTwoTone />
   </div>
 
 );

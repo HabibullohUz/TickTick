@@ -1,97 +1,84 @@
-import { DatePicker, Space } from 'antd'
-import moment from 'moment'
-import React, { useState } from 'react'
+import { DatePicker, Space } from "antd";
+import React, { useRef, useState } from "react";
+import moment from "moment";
 
 function TodoTask() {
-  const [date, setDate] = useState(null)
-  const [time, setTime] = useState('')
-  const [daySpan, setSpanDay] = useState('')
-  const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState("");
+  const [daySpan, setSpanDay] = useState("");
+  const inputRef = useRef();
+  const weekDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   function getWeekdayInMonth(event) {
-    let e = event.target.value
+    let e = event.target.value;
 
     weekDays.map((weekDay) => {
       if (e.includes(weekDay)) {
-        setSpanDay(weekDay)
-        const week = moment().day(weekDay)._d
-        setDate(moment(moment(week).format('YYYY-MM-DD')))
+        setSpanDay(weekDay);
+        inputRef.current.value = "";
+
+        const week = moment().day(weekDay)._d;
+        console.log(week);
+        setDate("2023-09-25");
       }
-    })
+    });
 
     if (e.length >= 5) {
-      checkTime(e.slice(-5))
+      checkTime(e.slice(-5));
     }
   }
 
   const onChange = (date, dateString) => {
-    console.log(date, dateString);
+    console.log(date);
   };
 
   const checkTime = (time) => {
-    if (!isNaN(time[0]) && !isNaN(time[1]) && time[2] === ":" && !isNaN(time[3]) && !isNaN(time[4])) {
-      setTime(time)
+    if (
+      !isNaN(time[0]) &&
+      !isNaN(time[1]) &&
+      time[2] === ":" &&
+      !isNaN(time[3]) &&
+      !isNaN(time[4])
+    ) {
+      setTime(time);
     }
-  }
+  };
+
+  const catchBackspace = (e) => {
+    if (e.code === "Backspace" && inputRef.current.value === "") {
+      inputRef.current.value = daySpan;
+      setSpanDay("");
+    }
+  };
 
   return (
-    <div className='todoTask__wrapper'>
+    <div className="todoTask__wrapper">
       <h1>Todo Task</h1>
-      <span>{daySpan}</span>
-      <input className='todo_input' type="text" onChange={getWeekdayInMonth} />
+      <div className="input-container">
+        <div className="days">{daySpan}</div>
+        <input
+          ref={inputRef}
+          className="todo_input"
+          type="text"
+          onChange={getWeekdayInMonth}
+          onKeyDown={(e) => catchBackspace(e)}
+        />
+      </div>
 
-      <span >{time}</span>
+      <span>{time}</span>
       <Space direction="vertical">
-        <DatePicker onChange={onChange} value={date} format="YYYY-MM-DD" />
+        <DatePicker defaultValue={date} format={"YYYY-MM-DD"} />
       </Space>
     </div>
-  )
+  );
 }
 
-export default TodoTask
-
-
-
-
-
-
-
-// import React, { useState } from 'react';
-// import { DatePicker } from 'antd';
-// import moment from 'moment';
-
-// const DatePickerExample = () => {
-//   const [selectedDate, setSelectedDate] = useState(moment('2023-09-29'));
-
-//   const handleDateChange = (date) => {
-//     setSelectedDate(date);
-//   };
-
-//   const disabledDate = (current) => {
-//     // Bugungi sanani olib olamiz
-//     const today = moment();
-//     // Hafta kunlarini tartiblangan ro'yhat
-//     const weekdays = [1, 2, 3, 4, 5, 6, 0]; // Dushanba - Yakshanba
-
-//     // Agar tanlangan sananing hafta kunidagi indeks weekdays ro'yhatida bo'lmasa, tanlashni o'chiramiz
-//     if (!weekdays.includes(current.day())) {
-//       return true;
-//     }
-//     // Bugundan oldinligini tekshirish
-//     return current.isBefore(today, 'day');
-//   };
-
-//   return (
-//     <div>
-//       <DatePicker
-//         value={selectedDate}
-//         onChange={handleDateChange}
-//         format="YYYY-MM-DD"
-//         disabledDate={disabledDate}
-//       />
-//       <p>Selected Date: {selectedDate ? selectedDate.format('YYYY-MM-DD') : 'None'}</p>
-//     </div>
-//   );
-// };
-
-// export default DatePickerExample;
+export default TodoTask;
