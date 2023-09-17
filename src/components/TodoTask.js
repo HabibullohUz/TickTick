@@ -73,9 +73,9 @@ function TodoTask() {
         />
       </div>
 
-      <span>{time}</span>
       <Space direction="vertical">
         <DatePicker defaultValue={date} format={"YYYY-MM-DD"} />
+        <span>{time}</span>
       </Space>
     </div>
   );
