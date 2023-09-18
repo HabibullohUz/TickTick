@@ -14,7 +14,6 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
   const [daySpan, setSpanDay] = useState("");
   const [ourSpan, setOurSpan] = useState("");
   const [importantSpan, setImportantSpan] = useState("");
-  const [spans, setSpants] = useState([daySpan, ourSpan, importantSpan]);
 
   const weekDays = [
     { en: "monday", uz: "Dushanba" },
@@ -38,7 +37,7 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
     console.log(moment().add(0, "days"));
     setTodoTitle(e);
     weekDays.map(({ uz, en }) => {
-      if (e.toLowerCase() === uz.toLowerCase()) {
+      if (e.toLowerCase().trim() === uz.toLowerCase()) {
         setSpanDay(uz);
         setTodoTitle("");
         event.target.placeholder = "";
@@ -48,7 +47,7 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
     });
 
     days.map(({ uz, en }) => {
-      if (e.toLowerCase() === uz.toLowerCase()) {
+      if (e.toLowerCase().includes(uz.toLowerCase())) {
         setSpanDay(uz);
         setTodoTitle("");
         event.target.placeholder = "";
@@ -75,11 +74,7 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
 
   const checkTime = (time) => {
     if (
-      !isNaN(time[0]) &&
-      !isNaN(time[1]) &&
-      time[2] === ":" &&
-      !isNaN(time[3]) &&
-      !isNaN(time[4])
+      /^[0-9]{2}:[0-9]{2}$/.test(time)
     ) {
       setTime(time);
       setOurSpan(time);
@@ -92,18 +87,13 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
       if (importantSpan) {
         setTodoTitle(importantSpan);
         setImportantSpan("");
-      }
-      if (ourSpan) {
+      } else if (ourSpan) {
         setTodoTitle(ourSpan);
         setOurSpan("");
-      }
-      if (daySpan) {
+      } else if (daySpan) {
         setTodoTitle(daySpan);
         setSpanDay("");
       }
-
-      setTodoTitle();
-
       e.target.placeholder = "+ add task to 'Inbox', press inter to save";
     }
   };
@@ -149,7 +139,6 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
           {importantSpan && (
             <span className={styles["ours"]}>&nbsp; {importantSpan} </span>
           )}
-          <span className={styles["span"]}></span>
           <input
             value={todoTitle}
             className={styles["todo-input"]}
