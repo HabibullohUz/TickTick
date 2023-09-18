@@ -2,7 +2,6 @@ import {
   BellOutlined,
   CalendarTwoTone,
   CheckSquareOutlined,
-  NotificationOutlined,
   QuestionCircleOutlined,
   SearchOutlined,
   UserOutlined,

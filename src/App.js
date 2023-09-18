@@ -36,17 +36,3 @@ function App() {
 
 export default App;
 
-// const initialTodos = [
-//   {
-//     id: 1,
-//     title: "Coding",
-//     todoDate: "Monday",
-//     time: "11:30",
-//     importantSpan: "!high",
-//     isCompleted: false,
-//     isHigh: false,
-//     isMedium: false,
-//     isLow: false,
-//   },
-
-// ];

@@ -14,17 +14,64 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
   const [daySpan, setSpanDay] = useState("");
   const [ourSpan, setOurSpan] = useState("");
   const [importantSpan, setImportantSpan] = useState("");
+  const [spans, setSpants] = useState([daySpan, ourSpan, importantSpan]);
 
   const weekDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    { en: "monday", uz: "Dushanba" },
+    { en: "tuesday", uz: "Seshanba" },
+    { en: "wednesday", uz: "Chorshanba" },
+    { en: "thursday", uz: "Payshanba" },
+    { en: "friday", uz: "Juma" },
+    { en: "saturday", uz: "Shanba" },
+    { en: "sunday", uz: "Yakshanba" },
   ];
-  const importants = ["!High", "!Medium", "!Low"];
+  const importants = ["!Muhim", "!O'rta", "!Oddiy"];
+
+  const days = [
+    { en: -1, uz: "Kecha" },
+    { en: 1, uz: "Ertaga" },
+    { en: 0, uz: "bugun" },
+  ];
+
+  function getWeekdayInMonth(event) {
+    let e = event.target.value;
+    console.log(moment().add(0, "days"));
+    setTodoTitle(e);
+    weekDays.map(({ uz, en }) => {
+      if (e.toLowerCase() === uz.toLowerCase()) {
+        setSpanDay(uz);
+        setTodoTitle("");
+        event.target.placeholder = "";
+        const week = moment().day(en)._d;
+        setDate(week);
+      }
+    });
+
+    days.map(({ uz, en }) => {
+      if (e.toLowerCase() === uz.toLowerCase()) {
+        setSpanDay(uz);
+        setTodoTitle("");
+        event.target.placeholder = "";
+        const week = moment().add(en, "days")._d;
+        setDate(week);
+      }
+    });
+
+    importants.map((important) => {
+      if (e.toLowerCase().includes(important.toLowerCase())) {
+        setImportantSpan(important);
+
+        setTodoTitle("");
+        event.target.placeholder = "";
+        const week = moment().day(important)._d;
+        setDate(week);
+      }
+    });
+
+    if (e.length >= 5) {
+      checkTime(e.slice(-5));
+    }
+  }
 
   const checkTime = (time) => {
     if (
@@ -55,6 +102,8 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
         setSpanDay("");
       }
 
+      setTodoTitle();
+
       e.target.placeholder = "+ add task to 'Inbox', press inter to save";
     }
   };
@@ -63,23 +112,22 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
     e.preventDefault();
     if (
       1 > todoTitle.length ||
+      todoTitle === " " ||
       todoTitle === "  " ||
-      todoTitle === "   " ||
-      todoTitle === "    "
+      todoTitle === "   "
     )
       return;
 
     const newTodo = {
       id: todos.length + 1,
       title: todoTitle,
-      isHigh: importantSpan.toLowerCase() === "!high",
-      isMedium: importantSpan.toLowerCase() === "!medium",
-      isLow: importantSpan.toLowerCase() === "!low",
+      isHigh: importantSpan.toLowerCase() === "!muhim",
+      isMedium: importantSpan.toLowerCase() === "!o'rta",
+      isLow: importantSpan.toLowerCase() === "!oddiy",
       todoDate: daySpan,
-      time: time ? time : date.toDateString(),
+      time: time,
       importantSpan,
     };
-    console.log(daySpan.toLowerCase() === "!!!high");
 
     onAddTodo(newTodo);
     setTodoTitle("");
@@ -90,62 +138,31 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
     setTime("");
   };
 
-  function getWeekdayInMonth(event) {
-    let e = event.target.value;
-
-    setTodoTitle(e);
-    weekDays.map((weekDay) => {
-      if (e.toLowerCase().includes(weekDay.toLowerCase())) {
-        setSpanDay(weekDay);
-        setTodoTitle("");
-        event.target.placeholder = "";
-        const week = moment().day(weekDay)._d;
-        setDate(week);
-      }
-    });
-
-    importants.map((important) => {
-      if (e.toLowerCase().includes(important.toLowerCase())) {
-        setImportantSpan(important);
-
-        setTodoTitle("");
-        event.target.placeholder = "";
-        const week = moment().day(important)._d;
-        setDate(week);
-      }
-    });
-
-    if (e.length >= 5) {
-      checkTime(e.slice(-5));
-    }
-  }
-
   return (
     <div className={styles["todoTask-wrapper"]}>
       <h1>Todo Task</h1>
 
       <div className={styles["input-container"]}>
         <form className={styles["form"]} onSubmit={handleSubmit}>
-          <div className={styles["days"]}>{`${daySpan}`} </div>
-          {ourSpan && <div className={styles["ours"]}>&nbsp; {ourSpan} </div>}
+          <span className={styles["days"]}>{`${daySpan}`}</span>
+          {ourSpan && <span className={styles["ours"]}>&nbsp; {ourSpan} </span>}
           {importantSpan && (
-            <div className={styles["ours"]}>&nbsp; {importantSpan} </div>
+            <span className={styles["ours"]}>&nbsp; {importantSpan} </span>
           )}
+          <span className={styles["span"]}></span>
           <input
             value={todoTitle}
             className={styles["todo-input"]}
             type="text"
             onChange={getWeekdayInMonth}
             onKeyDown={(e) => catchBackspace(e)}
-            placeholder="+ add task to 'Inbox', press inter to save"
+            placeholder="+ 'Inbox' ga task qo'shing, saqlash uchun inter bosing !"
           />
         </form>
 
         <DatePicker
           value={date}
           format="dd-MM-y"
-          onChange={(value) => console.log("New date is: ", setDate(value))}
-          onFocus={(event) => console.log("Focused input: ", event.target.name)}
           clearIcon={null}
           className="date-picker"
         />
@@ -213,7 +230,7 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
           )
         )}
       </ul>
-    </div>
+    </div >
   );
 }
 
