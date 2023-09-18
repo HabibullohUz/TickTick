@@ -1,0 +1,47 @@
+/* navlist container  */
+.navlist-container {
+  width: 280px;
+  height: 100vh;
+}
+
+.navlist-container {
+}
+
+.btn-wrapper {
+  display: flex;
+  padding: 0 8px;
+  flex-direction: column;
+  margin: 14px 0;
+}
+
+.btn {
+  background-color: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  color: #1a1a1a;
+  font-size: 14px;
+  background: unset;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #f5f8ff;
+}
+
+.btn div {
+  display: flex;
+  gap: 6px;
+}
+
+.line {
+  height: 1px;
+  margin: 8px;
+  background-color: #f3f3f3;
+}
+
+svg {
+  color: #a3a3a3;
+}

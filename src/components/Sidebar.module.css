@@ -1,0 +1,35 @@
+/* sidebar container  */
+
+.sidebar-container {
+  height: 100vh;
+  padding: 16px 10px 0 10px;
+  display: grid;
+  background-color: #f1f4ff;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.react-icon svg {
+  width: 24px;
+  height: 24px;
+  margin: 10px 0;
+  color: #1777ff;
+}
+
+.avatar {
+  margin-bottom: 30px;
+}

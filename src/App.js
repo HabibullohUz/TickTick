@@ -1,23 +1,52 @@
-// import { useState } from 'react';
-import './App.css';
-import Sidebar from './components/Sidebar';
-import NavList from './components/NavList';
-import TodoView from './components/TodoView';
-import TodoTask from './components/TodoTask';
+import "./App.css";
+import Sidebar from "./components/Sidebar";
+import NavList from "./components/NavList";
+import TodoTask from "./components/TodoTask";
+import { useState } from "react";
 
 function App() {
+  const [todos, setTodos] = useState([]);
 
+  function handleAddTodo(todo) {
+    setTodos((todos) => [...todos, todo]);
+  }
+
+  function handleToggleTodo(id) {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    );
+  }
 
   return (
     <div className="App">
-      <div className='container' >
+      <div className="container-layout">
         <Sidebar />
         <NavList />
-        <TodoTask />
-        <TodoView />
+        <TodoTask
+          onToggle={handleToggleTodo}
+          onAddTodo={handleAddTodo}
+          todos={todos}
+        />
       </div>
     </div>
   );
 }
 
 export default App;
+
+// const initialTodos = [
+//   {
+//     id: 1,
+//     title: "Coding",
+//     todoDate: "Monday",
+//     time: "11:30",
+//     importantSpan: "!high",
+//     isCompleted: false,
+//     isHigh: false,
+//     isMedium: false,
+//     isLow: false,
+//   },
+
+// ];
