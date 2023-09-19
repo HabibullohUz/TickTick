@@ -151,11 +151,11 @@ function TodoTask({ todos, onAddTodo, onToggle }) {
 
         <DatePicker
           value={date}
-          format="dd-MM-y"
           clearIcon={null}
           className="date-picker"
+          format="dd-MM-y"
         />
-        <p> {time && `, ${time}`}</p>
+        <p className={styles.showInputTime}> {time && `${time}`}</p>
       </div>
 
       <ul className={styles["todo-list"]}>
